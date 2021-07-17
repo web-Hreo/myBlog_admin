@@ -2,12 +2,24 @@ module.exports = {
   messages: {
     CN: {
       home: {name: '首页'},
+      // user: {
+      //   name: '个人中心',
+      //   change: {name: '修改个人信息'},
+      // },
     },
     US: {
       home: {name: 'home'},
+      // user: {
+      //   name: '个人中心',
+      //   change: {name: '修改个人信息'},
+      // },
     },
     HK: {
       home: {name: '首頁'},
+      // user: {
+      //   name: '个人中心',
+      //   change: {name: '修改个人信息'},
+      // },
       dashboard: {
         name: 'Dashboard',
         workplace: {name: '工作台'},
