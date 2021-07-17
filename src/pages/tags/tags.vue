@@ -30,10 +30,10 @@
         @change="onChange"
       >
         <div slot="action" slot-scope="{ record}">
-          <a style="margin:0 8px">
+          <a style="margin:0 8px" @click="updateTag(record)">
             <a-icon type="edit"/>编辑
           </a>
-          <a @click="deleteRecord(record.key)" style="color:red">
+          <a @click="deleteTag(record)" style="color:red">
             <a-icon type="delete" />删除
           </a>
         </div>
@@ -55,8 +55,17 @@
         :labelCol="{span: 4}"
         :wrapperCol="{span: 18, offset: 1}"
       >
-        <a-input v-model="modalTagName" placeholder="请输入标签名称" />
+        <a-input v-model="modalTagName" placeholder="请输入标签名称" @keyup.enter="handleOk" />
       </a-form-item>
+    </a-modal>
+
+    <a-modal
+      title="删除提示"
+      :visible="delShow"
+      @ok="delHandleOk"
+      @cancel="delShow=false"
+    >
+      <p>删除不可恢复,请您再次确认是否删除</p>
     </a-modal>
   </a-card>
 </template>
@@ -64,6 +73,8 @@
 <script>
 import StandardTable from '@/components/table/StandardTable'
 import {tagColumns} from '../components/data'
+import {getTags,setTag,updateTag,deleteTag} from '../../api/tags'
+import {notify} from '../components/methods'
 
 export default {
   name: 'QueryList',
@@ -72,34 +83,62 @@ export default {
     return {
       advanced: true,
       columns: tagColumns,
-      dataSource:[
-        { id:1,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:2,title:'测试文章',tag:'vue',createTime:'2021-07-16',updateTime:'2021-07-17',viewNum:2392 },
-        { id:3,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:4,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:5,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:6,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:7,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-      ],
+      dataSource:[ ],
+      delShow:false,
       visible:false,//新增标签模态框开关
-      modalTagName:''
+      modalTagName:'',
+      currentRow:{},//当前选中的数组
+      isUpdate:false//当前是否处于修改状态中
     }
   },
   authorize: {
     deleteRecord: 'delete'
   },
+  created(){
+    this.getTags()
+  },
   methods: {
+    async getTags(){
+      const {data} = await getTags()
+      this.dataSource = data
+    },
     //  新增标签 -模态框 - 关闭事件
     handleCancel(){
       this.visible = false
       this.modalTagName = ''
     },
     //  新增标签 -模态框 - 确定事件
-    handleOk(){
-      this.dataSource.unshift({
-        id:1,title:this.modalTagName,tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392
-      })
-      this.visible = false
+    async handleOk(){
+      if( this.isUpdate){
+        const {_id} = this.currentRow
+        await updateTag({_id,name:this.modalTagName})
+        notify('success','编辑成功')
+      }else{
+        await setTag({name:this.modalTagName})
+        notify('success','新增成功')
+      }
+      this.getTags()
+      this.handleCancel()
+    },
+    //打开 修改模态框
+    updateTag(row){
+      this.isUpdate = true
+      this.visible = true
+      this.currentRow = row
+      this.modalTagName = row.name
+      console.log(row);
+    },
+    //开打删除模态框
+    deleteTag(row){
+      this.delShow = true
+      this.currentRow = row
+    },
+    //删除标签
+    async delHandleOk(){
+      await deleteTag({_id:this.currentRow._id})
+      this.delShow = false
+      this.getTags()
+      notify('success','删除成功')
     },
     deleteRecord(key) {
       this.dataSource = this.dataSource.filter(item => item.key !== key)
