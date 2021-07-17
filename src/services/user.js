@@ -13,6 +13,9 @@ export async function login(name, password) {
     password: password
   })
 }
+export async function myLogin(params) {
+  return request('http://localhost:3000/user/login', METHOD.POST, { ...params})
+}
 
 export async function getRoutesConfig() {
   return request(ROUTES, METHOD.GET)

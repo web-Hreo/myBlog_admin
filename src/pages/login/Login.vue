@@ -75,7 +75,7 @@
 
 <script>
 import CommonLayout from '@/layouts/CommonLayout'
-import {login, getRoutesConfig} from '@/services/user'
+import { getRoutesConfig,myLogin} from '@/services/user'
 import {setAuthorization} from '@/utils/request'
 import {loadRoutes} from '@/utils/routerUtil'
 import {mapMutations} from 'vuex'
@@ -99,34 +99,49 @@ export default {
     ...mapMutations('account', ['setUser', 'setPermissions', 'setRoles']),
     onSubmit (e) {
       e.preventDefault()
-      this.form.validateFields((err) => {
+      //  this.logging = true
+      //     const userName = this.form.getFieldValue('name')
+      //     const passWord = this.form.getFieldValue('password')
+      //     const {data} = await myLogin({userName,passWord})
+      //     console.log(data);
+      //     data.success && this.afterLogin(data.results)
+      this.form.validateFields(async (err) => {
         if (!err) {
           this.logging = true
-          const name = this.form.getFieldValue('name')
-          const password = this.form.getFieldValue('password')
-          login(name, password).then(this.afterLogin)
+          // const name = this.form.getFieldValue('name')
+          // const password = this.form.getFieldValue('password')
+          // login(name, password).then(this.afterLogin)
+                //     const userName = this.form.getFieldValue('name')
+          const userName = this.form.getFieldValue('name')
+          const passWord = this.form.getFieldValue('password')
+          const {data} = await myLogin({userName,passWord})
+          console.log(data);
+          data.success && this.afterLogin(data.results)
         }
       })
     },
     afterLogin(res) {
+      console.log(res);
       this.logging = false
-      const loginRes = res.data
-      if (loginRes.code >= 0) {
-        const {user, permissions, roles} = loginRes.data
-        this.setUser(user)
+      // const loginRes = res.data
+      res.user.position = {
+             CN: "产品分析师 | 蚂蚁金服-计算服务事业群-IOS平台部",
+            HK: "產品分析師 | 螞蟻金服-計算服務事業群-IOS平台部",
+            US: "Product analyst | Ant Financial - Computing services business group - IOS platform division",
+      }
+        const permissions = [{id:'admin',operation:['add','edit','delete'] } ]
+        const roles = [{id:'admin',operation:['add','edit','delete'] } ]
+        this.setUser(res.user)
         this.setPermissions(permissions)
         this.setRoles(roles)
-        setAuthorization({token: loginRes.data.token, expireAt: new Date(loginRes.data.expireAt)})
+        setAuthorization({token: 'Authorization:0.7303707475015775', expireAt: new Date()})
         // 获取路由配置
         getRoutesConfig().then(result => {
           const routesConfig = result.data.data
           loadRoutes(routesConfig)
           this.$router.push('/workplace')
-          this.$message.success(loginRes.message, 3)
+          this.$message.success('中午好', 3)
         })
-      } else {
-        this.error = loginRes.message
-      }
     }
   }
 }

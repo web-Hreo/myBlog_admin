@@ -44,19 +44,19 @@ const options = {
           path: 'article',
           name: '文章管理',
           meta: { icon: 'file-word' },
-          component: () => import('@/pages/articleManage/article'),
+          component: () => import('@/pages/article/article'),
         },
         {
           path: 'tags',
           name: '标签',
           meta: { icon: 'tags' },
-          component: () => import('@/pages/articleManage/tags'),
+          component: () => import('@/pages/tags/tags'),
         },
         {
           path: 'mood',
           name: '日志',
           meta: { icon: 'file-search' },
-          component: () => import('@/pages/articleManage/tags'),
+          component: () => import('@/pages/tags/tags'),
         },
         {
           path: 'user/change',
