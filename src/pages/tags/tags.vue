@@ -119,6 +119,7 @@ export default {
       }
       this.getTags()
       this.handleCancel()
+      this.isUpdate = false//取消编辑状态
     },
     //打开 修改模态框
     updateTag(row){

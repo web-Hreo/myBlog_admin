@@ -47,6 +47,18 @@ const options = {
           component: () => import('@/pages/article/article'),
         },
         {
+          path: 'article/add',
+          name: '新增文章',
+          meta: {  highlight: '/article', invisible: true },
+          component: () => import('@/pages/article/add'),
+        },
+        {
+          path: 'article/edit',
+          name: '编辑文章',
+          meta: {  highlight: '/article', invisible: true },
+          component: () => import('@/pages/article/add'),
+        },
+        {
           path: 'tags',
           name: '标签',
           meta: { icon: 'tags' },

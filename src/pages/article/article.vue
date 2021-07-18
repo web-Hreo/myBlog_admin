@@ -4,19 +4,28 @@
       <a-form layout="horizontal">
         <div :class="advanced ? null: 'fold'">
           <a-row >
-            <a-col :md="8" :sm="24" >
+            <a-col :md="6" :sm="24" >
               <a-form-item
                 label="文章标题"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 1}"
+                :labelCol="{span: 6}"
+                :wrapperCol="{span: 16, offset: 1}"
               >
-                <a-input placeholder="请输入文章标题" />
+                <a-input @keyup.enter="getArticle"  v-model="form.title" placeholder="请输入文章标题" />
               </a-form-item>
             </a-col>
-            <a-button type="primary">查询</a-button>
-            <a-button style="margin-left:4px">重置</a-button>
+            <a-col :md="6" :sm="24" >
+              <a-form-item :labelCol="{span: 6}"
+                :wrapperCol="{span: 16, offset: 1}" label="文章标签">
+                <a-select @change="getArticle" placeholder="请输入文章标题"  v-model="form.tag">
+                  <a-select-option value="vue">vue</a-select-option>
+                  <a-select-option value="html">html</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-button type="primary" @click="getArticle">查询</a-button>
+            <a-button style="margin-left:4px" @click="clear">重置</a-button>
             <span style="float: right; margin-top: 3px;">
-              <a-button @click="addNew" type="primary">新建</a-button>
+              <a-button  type="primary" @click="$router.push('article/add')">新建</a-button>
             </span>
           </a-row>
         </div>
@@ -27,17 +36,12 @@
       <standard-table
         :columns="columns"
         :dataSource="dataSource"
-        @clear="onClear"
-        @change="onChange"
-        @selectedRowChange="onSelectChange"
       >
         <div slot="action" slot-scope="{ record}">
           <router-link style="color:green" :to="`/list/query/detail/${record.key}`" >查看详情</router-link>
-          <a style="margin:0 8px">
-            <a-icon type="edit"/>编辑
-          </a>
-          <a @click="deleteRecord(record.key)" style="color:red">
-            <a-icon type="delete" />删除
+          <router-link :to="'/article/edit?id=' +record._id "  style="margin:0 8px"><a-icon type="edit" />编辑</router-link>
+          <a @click="del(record._id)" style="color:red">
+            <a-icon type="delete" @click="del" />删除
           </a>
         </div>
         <template slot="statusTitle">
@@ -50,13 +54,19 @@
 
 <script>
 import StandardTable from '@/components/table/StandardTable'
-import {articleColumns} from '../components/data'
+import {articleColumns} from '@/pages/components/data'
+import {getArticle,deleteArticle} from '@/api/article'
+import {notify} from '@/pages/components/methods'
 
 export default {
   name: 'QueryList',
   components: {StandardTable},
   data () {
     return {
+      form:{
+        title:'',
+        tag:''
+      },
       advanced: true,
       columns: articleColumns,
       dataSource:[
@@ -67,50 +77,45 @@ export default {
         { id:5,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
         { id:6,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
         { id:7,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-      ]
+      ],
     }
   },
-  authorize: {
-    deleteRecord: 'delete'
+  created(){
+    this.getArticle()
   },
   methods: {
-    deleteRecord(key) {
-      this.dataSource = this.dataSource.filter(item => item.key !== key)
+    //获取文章列表
+    async getArticle(){
+      const {data} = await getArticle(this.form)
+      data.forEach(it=>{it.key=it._id})
+      console.log(data);
+      this.dataSource = data
     },
-    toggleAdvanced () {
-      this.advanced = !this.advanced
+    clear(){
+      this.form.title = ''
+      this.form.tag = ''
+      this.getArticle()
     },
-    remove () {
-      this.dataSource = this.dataSource.filter(item => this.selectedRows.findIndex(row => row.key === item.key) === -1)
-      this.selectedRows = []
+    //删除事件
+    del(id){
+      const _this = this
+      this.$confirm({
+        title: '警告',
+        content: '数据删除后 不可恢复，请在此确认',
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        async onOk() {
+          await deleteArticle({id})
+          _this.getArticle()
+          _this.notify()
+          // notify('success','删除成功')
+        },
+      });
     },
-    onClear() {
-      this.$message.info('您清空了勾选的所有行')
+    notify(){
+      notify('success','删除成功')
     },
-    onStatusTitleClick() {
-      this.$message.info('你点击了状态栏表头')
-    },
-    onChange() {
-      this.$message.info('表格状态改变了')
-    },
-    onSelectChange() {
-      this.$message.info('选中行改变了')
-    },
-    addNew () {
-      this.dataSource.unshift({
-        key: this.dataSource.length,
-        no: 'NO ' + this.dataSource.length,
-        description: '这是一段描述',
-        callNo: Math.floor(Math.random() * 1000),
-        status: Math.floor(Math.random() * 10) % 4,
-        updatedAt: '2018-07-26'
-      })
-    },
-    handleMenuClick (e) {
-      if (e.key === 'delete') {
-        this.remove()
-      }
-    }
   }
 }
 </script>
