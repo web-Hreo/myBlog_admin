@@ -57,9 +57,10 @@ export default {
       }
       const {data} = await getToken()
       var formData = new FormData();
+      const date = Date.now()
       formData.append("file", file);
       formData.append("token", data.uploadToken);
-      formData.append("key", file.name);
+      formData.append("key", date+'_'+file.name);
       const res = await uploadImg(formData)
       this.$emit('upload', 'http://qwfu4j9pl.hn-bkt.clouddn.com/' +res.key)
       // const token = data.uploadToken
