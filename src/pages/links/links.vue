@@ -1,20 +1,36 @@
 <template>
-  <div>
-    <a-card :bordered="false">
-      <div style="display: flex; flex-wrap: wrap">
-          <head-info title="我的全部友链" content="8个" :bordered="true"/>
-          <head-info title="本周新增友链" content="32个" :bordered="true"/>
-          <head-info title="目前失联友链" style="color:red" content="24个"/>
-      </div>
-    </a-card>
-    <a-card
-      style="margin-top: 24px"
-      :bordered="false"
-    >
-      <div slot="extra">
-        <a-input-search style="margin-left: 16px; width: 272px;" />
-      </div>
-      <a-button type="dashed" style="width: 100%" icon="plus">添加</a-button>
+  <page-layout >
+    <div slot="headerContent" style="display:flex;align-items: center;">
+      <a-input placeholder="请输入标签名称" />
+      <a-button style="margin-left:20px" @click="visible = true" type="primary">新建</a-button>
+    </div>
+    <template slot="extra">
+      <head-info class="split-right" title="我的全部友链" content="56"/>
+      <head-info class="split-right" title="亲友友链" content="24"/>
+      <head-info class="split-right" title="常客友链" content="2223"/>
+      <head-info class="split-right" title="目前失联友链" content="2223"/>
+    </template>
+    <a-card style="margin-top: 24px" :bordered="false">
+      <!-- <a-form layout="horizontal">
+        <div :class="advanced ? null: 'fold'">
+          <a-row >
+            <a-col :md="8" :sm="24" >
+              <a-form-item
+                label="标签名称"
+                :labelCol="{span: 4}"
+                :wrapperCol="{span: 18, offset: 1}"
+              >
+                <a-input placeholder="请输入标签名称" />
+              </a-form-item>
+            </a-col>
+            <a-button type="primary">查询</a-button>
+            <a-button style="margin-left:4px">重置</a-button>
+            <span style="float: right; margin-top: 3px;">
+              <a-button @click="visible = true" type="primary">新建</a-button>
+            </span>
+          </a-row>
+        </div>
+      </a-form> -->
       <a-list size="large" :pagination="{showSizeChanger: true, showQuickJumper: true, pageSize: 5, total: 50}">
         <a-list-item :key="i" v-for="i in 5">
           <a-list-item-meta
@@ -51,14 +67,15 @@
         </a-list-item>
       </a-list>
     </a-card>
-  </div>
+  </page-layout>
 </template>
 
 <script>
+import PageLayout from '@/layouts/PageLayout'
 import HeadInfo from '../../components/tool/HeadInfo'
 export default {
   name: 'StandardList',
-  components: {HeadInfo}
+  components: {HeadInfo,PageLayout}
 }
 </script>
 
@@ -75,6 +92,7 @@ export default {
     p{
       margin: 4px 0 0;
       line-height: 22px;
+      
     }
   }
 </style>
