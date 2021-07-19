@@ -36,6 +36,8 @@
       <standard-table
         :columns="columns"
         :dataSource="dataSource"
+        :pagination="pagination"
+        @change="change"
       >
         <div slot="action" slot-scope="{ record}">
           <router-link style="color:green" :to="`/list/query/detail/${record.key}`" >查看详情</router-link>
@@ -65,19 +67,17 @@ export default {
     return {
       form:{
         title:'',
-        tag:''
+        tag:'',
+        pageNo:1,
       },
       advanced: true,
       columns: articleColumns,
-      dataSource:[
-        { id:1,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:2,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:3,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:4,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:5,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:6,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-        { id:7,title:'测试文章',tag:'vue',createTime:'2021-07-17',updateTime:'2021-07-17',viewNum:2392 },
-      ],
+      dataSource:[],
+      pagination:{
+        current:1,
+        pageSize:10,
+        total:''
+      }
     }
   },
   created(){
@@ -87,13 +87,23 @@ export default {
     //获取文章列表
     async getArticle(){
       const {data} = await getArticle(this.form)
+      this.handleList(data)
+    },
+    //处理分页
+    handleList(list){
+      const {data,pageNo,total} = list
       data.forEach(it=>{it.key=it._id})
-      console.log(data);
+      this.pagination.current = pageNo
+      this.pagination.total = total
       this.dataSource = data
     },
+    //重置按钮
     clear(){
       this.form.title = ''
-      this.form.tag = ''
+      this.form.tag = '',
+      this.form.pageNo = 1
+      this.pagination.current = 1
+      this.pagination.total = ''
       this.getArticle()
     },
     //删除事件
@@ -112,6 +122,12 @@ export default {
           // notify('success','删除成功')
         },
       });
+    },
+    change(pagination){
+      const {current} = pagination
+      this.form.pageNo = current
+      this.pagination.current = current
+      this.getArticle()
     },
     notify(){
       notify('success','删除成功')

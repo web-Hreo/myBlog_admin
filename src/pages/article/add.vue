@@ -1,42 +1,42 @@
 <template>
   <page-layout>
-  <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
-    <a-form>
-      <a-form-item
-        label="文章封面"
-        :labelCol="{span: 2}"
-        :wrapperCol="{span: 10}"
-      >
-      <Upload :imageUrl="form.viewImg" @upload="uploadImg"></Upload>
-      </a-form-item>
-      <a-form-item
-        label="文章标题"
-        :labelCol="{span: 2}"
-        :wrapperCol="{span: 10}"
-      >
-        <a-input v-model="form.title" placeholder="请输入文章标题" />
-      </a-form-item>
-      <a-form-item :labelCol="{span: 2}"
-        :wrapperCol="{span: 10}" label="文章标签">
-        <a-select placeholder="请输入文章标签" v-model="form.tag" >
-          <a-select-option v-for="item in tagList" :key="item._id" :value="item.name">{{item.name}}</a-select-option>
-        </a-select>
-      </a-form-item>
-      <a-form-item
-        label="初始浏览量"
-        :labelCol="{span: 2}"
-        :wrapperCol="{span: 10}"
-        
-      >
-        <a-input v-model="form.viewNum" placeholder="请输入文章标题" />
-      </a-form-item>
-      <Wangeditor :ditorHtml="form.cont" @onchange="onchange" />
-      <a-form-item style="margin-top: 24px" :wrapperCol="{span: 10, offset: 7}">
-        <a-button type="primary" @click="submit">保存</a-button>
-        <a-button style="margin-left: 8px" @click="$router.go(-1)">返回</a-button>
-      </a-form-item>
-    </a-form>
-  </a-card>
+    <template slot="action">
+      <a-button type="primary" @click="submit">保存</a-button>
+      <a-button style="margin-left: 8px" @click="$router.go(-1)">返回</a-button>
+    </template>
+    <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
+      <a-form>
+        <a-form-item
+          label="文章封面"
+          :labelCol="{span: 2}"
+          :wrapperCol="{span: 10}"
+        >
+        <Upload :imageUrl="form.viewImg" @upload="uploadImg"></Upload>
+        </a-form-item>
+        <a-form-item
+          label="文章标题"
+          :labelCol="{span: 2}"
+          :wrapperCol="{span: 10}"
+        >
+          <a-input v-model="form.title" placeholder="请输入文章标题" />
+        </a-form-item>
+        <a-form-item :labelCol="{span: 2}"
+          :wrapperCol="{span: 10}" label="文章标签">
+          <a-select placeholder="请输入文章标签" v-model="form.tag" >
+            <a-select-option v-for="item in tagList" :key="item._id" :value="item.name">{{item.name}}</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item
+          label="初始浏览量"
+          :labelCol="{span: 2}"
+          :wrapperCol="{span: 10}"
+          
+        >
+          <a-input v-model="form.viewNum" placeholder="请输入文章标题" />
+        </a-form-item>
+        <Wangeditor :ditorHtml="form.cont" @onchange="onchange" />
+      </a-form>
+    </a-card>
   </page-layout>
 </template>
 

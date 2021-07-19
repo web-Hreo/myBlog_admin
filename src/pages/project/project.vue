@@ -125,7 +125,7 @@ export default {
       
     },
     async edit(item){
-      this.form = item
+      this.form = JSON.parse(JSON.stringify(item))
        this.visible = true
       // item.id = item._id
       // const data = await updateProject(item)
