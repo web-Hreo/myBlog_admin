@@ -41,6 +41,15 @@ const options = {
           component: () => import('@/pages/user/user.vue'),
         },
         {
+          path: 'user/change',
+          name: '修改个人信息',
+          meta: {
+            highlight: '/user',
+            invisible: true
+          },
+          component: () => import('@/pages/user/change.vue'),
+        },
+        {
           path: 'article',
           name: '文章管理',
           meta: { icon: 'file-word' },
@@ -68,18 +77,8 @@ const options = {
           path: 'mood',
           name: '日志',
           meta: { icon: 'file-search' },
-          component: () => import('@/pages/tags/tags'),
+          component: () => import('@/pages/mood/mood'),
         },
-        {
-          path: 'user/change',
-          name: '修改个人信息',
-          meta: {
-            highlight: '/user',
-            invisible: true
-          },
-          component: () => import('@/pages/user/change.vue'),
-        },
-      
         {
           path: 'links',
           name: '友链管理',
@@ -96,7 +95,13 @@ const options = {
           path: 'navigation',
           name: '学习资源管理',
           meta: { icon: 'profile' },
-          component: () => import('@/pages/links/links'),
+          component: () => import('@/pages/navigation/navigation'),
+        },
+        {
+          path: 'navigation/details',
+          name: '学习资源管理',
+          meta: {  highlight: '/navigation', invisible: true },
+          component: () => import('@/pages/navigation/details'),
         },
         
         // {
