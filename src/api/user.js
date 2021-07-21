@@ -10,6 +10,14 @@ export function getDesc(params) {
     params,
   })
 }
+//获取个人中心
+export function login(params) {
+  return request({
+    url: `${baseUrl}/login`,
+    method: 'post',
+    data:params,
+  })
+}
 //编辑信息
 export function setDesc(params) {
   return request({
