@@ -110,9 +110,8 @@ module.exports = {
       }
     }
   },
-  publicPath: process.env.VUE_APP_PUBLIC_PATH,
+  publicPath: '/admin',
   outputDir: 'dist',
   assetsDir: 'static',
-  publicPath:'/admin',
   productionSourceMap: false
 }
