@@ -75,7 +75,8 @@
 
 <script>
 import CommonLayout from '@/layouts/CommonLayout'
-import { getRoutesConfig,myLogin} from '@/services/user'
+import { getRoutesConfig} from '@/services/user'
+import { login} from '@/api/user'
 import {setAuthorization} from '@/utils/request'
 import {loadRoutes} from '@/utils/routerUtil'
 import {mapMutations} from 'vuex'
@@ -99,29 +100,20 @@ export default {
     ...mapMutations('account', ['setUser', 'setPermissions', 'setRoles']),
     onSubmit (e) {
       e.preventDefault()
-      //  this.logging = true
-      //     const userName = this.form.getFieldValue('name')
-      //     const passWord = this.form.getFieldValue('password')
-      //     const {data} = await myLogin({userName,passWord})
-      //     console.log(data);
-      //     data.success && this.afterLogin(data.results)
+
       this.form.validateFields(async (err) => {
         if (!err) {
           this.logging = true
-          // const name = this.form.getFieldValue('name')
-          // const password = this.form.getFieldValue('password')
-          // login(name, password).then(this.afterLogin)
-                //     const userName = this.form.getFieldValue('name')
           const userName = this.form.getFieldValue('name')
           const passWord = this.form.getFieldValue('password')
-          const {data} = await myLogin({userName,passWord})
-          console.log(data);
+          const data = await login({userName,passWord})
+          !data.success && (this.logging = false)
+          !data.success && this.$message.error('账号密码错误', 3)
           data.success && this.afterLogin(data.results)
         }
       })
     },
     afterLogin(res) {
-      console.log(res);
       this.logging = false
       // const loginRes = res.data
       res.user.position = {
