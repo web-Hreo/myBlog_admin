@@ -35,6 +35,13 @@
         <Upload :imageUrl="form.imgSrc" @upload="uploadImg"></Upload>
       </a-form-item>
       <a-form-item
+        label="资源头像"
+        :labelCol="{span: 4}"
+        :wrapperCol="{span: 18, offset: 1}"
+      >
+        <a-input v-model="form.imgSrc"  placeholder="请输入资源头像" @keyup.enter="handleOk" />
+      </a-form-item>
+      <a-form-item
         label="资源名称"
         :labelCol="{span: 4}"
         :wrapperCol="{span: 18, offset: 1}"
