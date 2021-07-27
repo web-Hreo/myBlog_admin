@@ -5,6 +5,7 @@
  import axios from 'axios' // 引用axios
  const service = axios.create({
    baseURL: 'http://120.26.59.199:3000/', // 正式环境
+  //  baseURL: 'http://localhost:3000/', // 本地环境
    timeout: 1800000, // request timeout
  })
  
