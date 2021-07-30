@@ -37,8 +37,8 @@
       <a-form-item label="博客头像" :labelCol="{span: 4}" :wrapperCol="{span: 18, offset: 1}">
         <Upload  :imageUrl="form.avatar" @upload="uploadImg"></Upload>
       </a-form-item>
-      <a-form-item label="博客头像" :labelCol="{span: 4}" :wrapperCol="{span: 18, offset: 1}">
-        <a-input v-model="form.avatar" placeholder="请输入博客头像" @keyup.enter="handleOk" />
+      <a-form-item label="URL头像" :labelCol="{span: 4}" :wrapperCol="{span: 18, offset: 1}">
+        <a-input v-model="form.avatar" placeholder="请输入URL头像" @keyup.enter="handleOk" />
       </a-form-item>
       <a-form-item label="博客名称" :labelCol="{span: 4}" :wrapperCol="{span: 18, offset: 1}">
         <a-input v-model="form.title" placeholder="请输入博客名称" @keyup.enter="handleOk" />
