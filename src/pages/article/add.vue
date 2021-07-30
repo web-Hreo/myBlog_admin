@@ -6,13 +6,14 @@
     </template>
     <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
       <a-form>
-        <a-form-item
-          label="文章封面"
-          :labelCol="{span: 2}"
-          :wrapperCol="{span: 10}"
-        >
-        <Upload :imageUrl="form.viewImg" @upload="uploadImg"></Upload>
+        <a-form-item label="文章封面" :labelCol="{span: 2}" :wrapperCol="{span: 10}">
+          <Upload :imageUrl="form.viewImg" @upload="uploadImg"></Upload>
         </a-form-item>
+
+        <a-form-item label="文章封面" :labelCol="{span: 2}" :wrapperCol="{span: 10}">
+          <a-input v-model="form.viewImg" placeholder="请输入文章封面" />
+        </a-form-item>
+
         <a-form-item
           label="文章标题"
           :labelCol="{span: 2}"

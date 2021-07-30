@@ -34,6 +34,8 @@
     <div>
       <a-space class="operator"></a-space>
       <standard-table
+        :scroll="true"
+        :scrollXY="{x:1400}"
         :columns="columns"
         :dataSource="dataSource"
         :pagination="pagination"
@@ -48,6 +50,9 @@
         </div>
         <template slot="statusTitle">
           <a-icon @click.native="onStatusTitleClick" type="info-circle" />
+        </template>
+        <template slot="viewImg" slot-scope="text">
+          <img class="viewImg" :src="text.text" alt="">
         </template>
       </standard-table>
     </div>
@@ -91,10 +96,15 @@ export default {
     },
     //处理分页
     handleList(list){
-      const {data,pageNo,total} = list
+      const {data,pageNo,total,pageSize} = list
       data.forEach(it=>{it.key=it._id})
       this.pagination.current = pageNo
       this.pagination.total = total
+      console.log(list);
+      console.log(data);
+      data.forEach((it,index)=>{
+        it.index = (pageNo-1)*pageSize + index+1
+      })
       this.dataSource = data
     },
     //重置按钮
@@ -152,5 +162,12 @@ export default {
   }
   /deep/.ant-form-item{
     margin-top: -4px;
+  }
+  .viewImg{
+    width: 150px;
+    border-radius: 10px;
+  }
+  /deep/.ant-table-row-level-0{
+    height: 150px;
   }
 </style>

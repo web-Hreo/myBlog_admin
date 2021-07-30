@@ -14,6 +14,7 @@
       </a-alert>
     </div>
     <a-table
+      :scroll="scroll ? (scrollXY ? scrollXY : { x: 'max-content' }) : {}"
       :bordered="bordered"
       :loading="loading"
       :columns="columns"
@@ -56,7 +57,15 @@ export default {
     },
     selectedRows: Array,
     expandedRowKeys: Array,
-    expandedRowRender: Function
+    expandedRowRender: Function,
+    scroll: { // 是否显示溢出
+      type: Boolean,
+      default: true
+    },
+    scrollXY: { // scroll属性对象
+      type: [Boolean, Object],
+      default: false
+    },
   },
   data () {
     return {
