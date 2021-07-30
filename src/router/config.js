@@ -87,6 +87,12 @@ const options = {
           component: () => import('@/pages/links/links'),
         },
         {
+          path: 'links',
+          name: '留言管理',
+          meta: { icon: 'usergroup-add' },
+          component: () => import('@/pages/links/links'),
+        },
+        {
           path: 'project',
           name: '项目分享管理',
           meta: { icon: 'file-ppt' },

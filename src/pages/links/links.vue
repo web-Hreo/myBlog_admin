@@ -17,7 +17,7 @@
             <a-avatar slot="avatar" size="large" shape="square" :src="item.avatar"/>
             <a slot="title" target='_blank'>{{item.title}}</a>
           </a-list-item-meta>
-          <p slot="actions" @click="updateLink(item)"><a>编辑</a></p>
+          <p slot="actions" @click="updateLinkBtn(item)"><a>编辑</a></p>
           <p slot="actions" @click="deleteLink(item)"><a style="color:red">删除</a></p>
           <div class="list-content">
             <div class="list-content-item"><span>所属卡片</span><p :style="{'color':item.color}">{{item.type}}</p></div>
@@ -36,6 +36,9 @@
     >
       <a-form-item label="博客头像" :labelCol="{span: 4}" :wrapperCol="{span: 18, offset: 1}">
         <Upload  :imageUrl="form.avatar" @upload="uploadImg"></Upload>
+      </a-form-item>
+      <a-form-item label="博客头像" :labelCol="{span: 4}" :wrapperCol="{span: 18, offset: 1}">
+        <a-input v-model="form.avatar" placeholder="请输入博客头像" @keyup.enter="handleOk" />
       </a-form-item>
       <a-form-item label="博客名称" :labelCol="{span: 4}" :wrapperCol="{span: 18, offset: 1}">
         <a-input v-model="form.title" placeholder="请输入博客名称" @keyup.enter="handleOk" />
@@ -145,7 +148,7 @@ export default {
       this.isUpdate = false//取消编辑状态
     },
     //打开 修改模态框
-    updateLink(row){
+    updateLinkBtn(row){
       this.isUpdate = true
       this.visible = true
       this.form = JSON.parse(JSON.stringify(row))
