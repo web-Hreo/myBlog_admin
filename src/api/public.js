@@ -2,7 +2,6 @@ import request from './request'
 
 const baseUrl = 'file'
 
-//查询所有标签
 export function getToken(params) {
   return request({
     url: `${baseUrl}/token`,
@@ -10,6 +9,23 @@ export function getToken(params) {
     params,
   })
 }
+//查询所有留言
+export function getCommentList(params) {
+  return request({
+    url: `comment/all`,
+    method: 'get',
+    params,
+  })
+}
+//根据_id删除留言
+export function delComment(params) {
+  return request({
+    url: `comment/delete`,
+    method: 'post',
+    data:params,
+  })
+}
+
 //上传图片
 export function uploadImg(params) {
   return request({

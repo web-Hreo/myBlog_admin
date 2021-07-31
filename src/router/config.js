@@ -87,10 +87,10 @@ const options = {
           component: () => import('@/pages/links/links'),
         },
         {
-          path: 'links',
+          path: 'comment',
           name: '留言管理',
           meta: { icon: 'usergroup-add' },
-          component: () => import('@/pages/links/links'),
+          component: () => import('@/pages/comment/comment'),
         },
         {
           path: 'project',

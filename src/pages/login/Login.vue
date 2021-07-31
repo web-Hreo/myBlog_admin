@@ -107,6 +107,7 @@ export default {
           const userName = this.form.getFieldValue('name')
           const passWord = this.form.getFieldValue('password')
           const data = await login({userName,passWord})
+          console.log(data);
           !data.success && (this.logging = false)
           !data.success && this.$message.error('账号密码错误', 3)
           data.success && this.afterLogin(data.results)
