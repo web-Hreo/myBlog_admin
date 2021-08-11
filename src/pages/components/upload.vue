@@ -62,7 +62,7 @@ export default {
       formData.append("token", data.uploadToken);
       formData.append("key", date+'_'+file.name);
       const res = await uploadImg(formData)
-      this.$emit('upload', 'http://qwfu4j9pl.hn-bkt.clouddn.com/' +res.key)
+      this.$emit('upload', 'http://cdn.heblogs.cn/' +res.key)
       // const token = data.uploadToken
       // return isJpgOrPng && isLt2M;
       return false

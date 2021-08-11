@@ -9,7 +9,7 @@
     </div>
     <div class="login">
       <a-form @submit="onSubmit" :form="form">
-        <a-tabs size="large" :tabBarStyle="{textAlign: 'center'}" style="padding: 0 2px;">
+        <a-tabs size="large" @change="change" :tabBarStyle="{textAlign: 'center'}" style="padding: 0 2px;">
           <a-tab-pane tab="账户密码登录" key="1">
             <a-alert type="error" :closable="true" v-show="error" :message="error" showIcon style="margin-bottom: 24px;" />
             <a-form-item>
@@ -135,6 +135,9 @@ export default {
           this.$router.push('/workplace')
           this.$message.success('中午好', 3)
         })
+    },
+    change(e){
+      console.log(e);
     }
   }
 }

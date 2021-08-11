@@ -4,7 +4,7 @@ module.exports = {
     color: '#1890ff',
     mode: 'light',//设置你的默认主题模式，可选 light、dark 和 night
   },
-  multiPage: true,
+  multiPage: false,//多页签模式，true:开启，false:不开启
   animate: {
     disabled: true, //禁用动画，true:禁用，false:启用
     name: 'lightSpeed',//动画效果，支持的动画效果可参考 src/config/default/animate.config.js

@@ -33,7 +33,7 @@ export default {
     goChange(){
       this.$router.push('/user/change')
     }
-  }
+  },
 }
 </script>
 
