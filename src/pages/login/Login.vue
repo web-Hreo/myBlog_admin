@@ -127,6 +127,7 @@ export default {
         this.setUser(res.user)
         this.setPermissions(permissions)
         this.setRoles(roles)
+        localStorage.setItem('token',res.token)
         setAuthorization({token: 'Authorization:0.7303707475015775', expireAt: new Date()})
         // 获取路由配置
         getRoutesConfig().then(result => {

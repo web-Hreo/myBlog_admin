@@ -26,7 +26,7 @@
 <script>
 import PageLayout from '@/layouts/PageLayout'
 import {getCommentList,delComment} from '@/api/public'
-import {notify} from '../components/methods'
+// import {notify} from '../components/methods'
 
 export default {
   name: 'StandardList',
@@ -90,7 +90,7 @@ export default {
           await delComment({_id:row._id})
           _this.getComment()
           // _this.notify()
-          notify('success','删除成功')
+          // notify('success','删除成功')
         },
       });
 

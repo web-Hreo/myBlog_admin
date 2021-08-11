@@ -34,6 +34,7 @@ export default {
   methods: {
     logout() {
       logout()
+      localStorage.clear()
       this.$router.push('/login')
     }
   }

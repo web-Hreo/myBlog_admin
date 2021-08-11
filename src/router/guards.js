@@ -3,6 +3,8 @@ import {hasAuthority} from '@/utils/authority-utils'
 // import {checkAuthorization} from '@/utils/request'
 import NProgress from 'nprogress'
 
+const whiteList = ['/login'] // no redirect whitelist
+
 NProgress.configure({ showSpinner: false })
 
 /**
@@ -44,16 +46,29 @@ const loginGuard = (to, from, next) => {
  * @param options
  */
 const authorityGuard = (to, from, next, options) => {
+  console.log(whiteList.includes(to.path));
   const {store, message} = options
-  const permissions = store.getters['account/permissions']
-  const roles = store.getters['account/roles']
-  if (!hasAuthority(to, permissions, roles)) {
-    message.warning(`对不起，您无权访问页面: ${to.fullPath}，请联系管理员`)
-    next({path: '/403'})
-    // NProgress.done()
-  } else {
+  if (whiteList.includes(to.path)) {
+    console.log(to.path);
     next()
+  }else{
+    if(localStorage.getItem('token') !=='Authorization:0.6544986551972392'){
+      message.warning(`对不起，您无权访问页面: 请联系管理员`)
+      next({path: '/login'})
+    }else{
+      const permissions = store.getters['account/permissions']
+      const roles = store.getters['account/roles']
+      if (!hasAuthority(to, permissions, roles)) {
+        message.warning(`对不起，您无权访问页面: ${to.fullPath}，请联系管理员`)
+        next({path: '/403'})
+        // NProgress.done()
+      } else {
+        next()
+      }
+    }
   }
+
+
 }
 
 /**
