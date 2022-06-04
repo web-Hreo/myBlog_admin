@@ -16,35 +16,31 @@ const assetsCDN = {
     vuex: 'Vuex',
     axios: 'axios',
     nprogress: 'NProgress',
-    clipboard: 'ClipboardJS',
-    '@antv/data-set': 'DataSet',
     'js-cookie': 'Cookies'
   },
   css: [
   ],
   js: [
-    '//cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
-    '//cdn.jsdelivr.net/npm/vue-router@3.3.4/dist/vue-router.min.js',
-    '//cdn.jsdelivr.net/npm/vuex@3.4.0/dist/vuex.min.js',
-    '//cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js',
-    '//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js',
-    '//cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js',
-    '//cdn.jsdelivr.net/npm/@antv/data-set@0.11.4/build/data-set.min.js',
-    '//cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js'
+    '//lib.baomitu.com/vue/2.6.11/vue.min.js',
+    '//lib.baomitu.com/vue-router/3.4.0/vue-router.min.js',
+    '//lib.baomitu.com/vuex/3.5.1/vuex.min.js',
+    '//lib.baomitu.com/axios/0.19.2/axios.min.js',
+    '//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js',
+    '//lib.baomitu.com/js-cookie/2.2.1/js.cookie.min.js'
   ]
 }
 
 module.exports = {
   devServer: {
-    // proxy: {
-    //   '/api': { //此处要与 /services/api.js 中的 API_PROXY_PREFIX 值保持一致
-    //     target: process.env.VUE_APP_API_BASE_URL,
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       '^/api': ''
-    //     }
-    //   }
-    // }
+    proxy: {
+      '/api': { //此处要与 /services/api.js 中的 API_PROXY_PREFIX 值保持一致
+        target: 'http://www.heblogs.cn/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
   },
   pluginOptions: {
     'style-resources-loader': {

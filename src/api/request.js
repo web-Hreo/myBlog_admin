@@ -12,6 +12,7 @@
  // request interceptor  请求拦截器
  service.interceptors.request.use(
    (config) => {
+    // config.headers['Content-Type'] = 'application/x-www-form-urlencoded' //授权（每次请求把sessionId带给后台）
      return config
    },
    (error) => {

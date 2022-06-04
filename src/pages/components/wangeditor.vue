@@ -15,7 +15,8 @@
 //富文本编辑器文档地址：https://www.wangeditor.com/doc/
 import E from "wangeditor"
 import hljs from 'highlight.js'
-import 'highlight.js/styles/monokai-sublime.css'
+// import 'highlight.js/styles/a11y-dark.css'
+import 'highlight.js/styles/a11y-light.css'	//样式
 export default {
   name: 'wangeditor',
   components: {},
